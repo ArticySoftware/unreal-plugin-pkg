@@ -1,16 +1,18 @@
 {
   "name": "unreal-plugin-pkg",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "CLI for mass building and packaging Unreal plugins for multiple versions.",
   "main": "./dist/cli.js",
   "bin": {
     "unreal-plugin-pkg": "./dist/cli.js"
   },
+  "files": ["dist"],
   "author": "Brook Jensen",
   "license": "MIT",
   "scripts": {
     "start": "ts-node ./src/cli.ts",
-    "build": "tsc --build"
+    "build": "tsc --build",
+    "prepare": "tsc --build"
   },
   "dependencies": {
     "commander": "^8.1.0",
