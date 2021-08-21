@@ -14,10 +14,13 @@
   },
   "dependencies": {
     "commander": "^8.1.0",
-    "yargs": "^17.1.1"
+    "rimraf": "^3.0.2",
+    "yargs": "^17.1.1",
+    "zip-local": "^0.3.4"
   },
   "devDependencies": {
     "@types/node": "^16.6.2",
+    "@types/rimraf": "^3.0.2",
     "@types/yargs": "^17.0.2",
     "ts-node": "^10.2.1",
     "typescript": "^4.3.5"

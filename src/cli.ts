@@ -1,17 +1,28 @@
 import { execFileSync } from "child_process";
 import { Command, program } from "commander";
 import { readFileSync } from "fs";
+import { rm } from "fs/promises";
 import path = require("path");
+import rimraf = require("rimraf");
+import { promisify } from "util";
 import { FindUnrealInstallations, GetMatchingUnrealInstallation, GetRunUATBatch, IsPlatformSupported, UnrealVersionString } from "./installs";
 import { GetPluginInformation } from "./plugin";
 import { BuildSettings, DefaultBuildSettings } from "./settings";
+import { ZipDirectory } from "./zip";
 
-// Paths where Unreal installations may live
-/*const UnrealEnginePaths = ["C:\\Program Files\\Epic Games"];
-const VersionsToInstall = ['4.26', '4.25'];
-const PluginPath = "./plugin/ArticyImporter.uplugin";
-const OutputPath = "./out"
-const Platforms: UnrealPlatform[] = ["Win64", "Android"];*/
+const rimrafPromise = promisify(rimraf);
+
+async function cleanDirectory(dir: string, options: BuildSettings)
+{
+    if(options.CleanIntermediateFiles || options.CleanBinaryFiles)
+    {
+        await rimrafPromise(path.join(dir, "Intermediate"));
+    }
+    if(options.CleanBinaryFiles)
+    {
+        await rimrafPromise(path.join(dir, "Binaries"));
+    }
+}
 
 async function main(options: BuildSettings)
 {
@@ -54,6 +65,11 @@ async function main(options: BuildSettings)
         ];
         console.log(`Building ${UnrealVersionString(install.Version)} to ${outputDirectory}.`);
         execFileSync('"' + uatPath + '"', args, { shell: true, stdio: "inherit" });
+
+        await cleanDirectory(outputDirectory, settings);
+        if(settings.ZipPackages) { 
+            ZipDirectory(outputDirectory).then(() => console.log(`Finished zipping '${outputDirectory}'`)).catch(error => console.error(`Failed to zip '${outputDirectory}': ${error}`));
+        }
     }
 }
 
@@ -64,6 +80,9 @@ const parsed = program
     .option("--versions <versions...>", "List of Unreal versions to build your plugin for")
     .option("--out <outDir>", "Directory to compile the packages into. One folder will be created inside per version.")
     .option("--platforms <platforms...>", "Platforms to build for. Will be pruned to those supported by the current OS.")
+    .option('--keepIntermediate', "If set, keep intermediate files (don't delete).")
+    .option('--cleanBinaries', "If set, clean the Binaries folder (code only package)")
+    .option('--nozip', "If set, do not zip the created packages.")
     .parse();
 
 // Start with default settings
@@ -83,6 +102,9 @@ settings.OutputPath = opts.outDir ?? settings.OutputPath;
 settings.VersionsToInstall = opts.versions ?? settings.VersionsToInstall;
 settings.Platforms = opts.platforms ?? settings.Platforms;
 settings.UnrealEnginePaths = opts.unrealDirs ?? settings.UnrealEnginePaths;
+if(opts.keepIntermediate) { settings.CleanIntermediateFiles = false; }
+if(opts.cleanBinaries) { settings.CleanBinaryFiles = true; }
+if(opts.nozip) { settings.ZipPackages = false; }
 
 // Execute
 main(settings);

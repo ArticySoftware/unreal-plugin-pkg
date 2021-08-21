@@ -2,11 +2,39 @@ import { UnrealPlatform } from "./installs";
 
 export interface BuildSettings
 {
+    /**
+     * Unreal engine paths
+     */
     UnrealEnginePaths: string[];
+
+    /**
+     * Versions to run on
+     */
     VersionsToInstall: string[];
+
+    /**
+     * Directory of or path to .uplugin
+     */
     PluginPath: string;
+
+    /**
+     * Output directory for packages
+     */
     OutputPath: string;
+
+    /**
+     * Platforms to build for
+     */
     Platforms: UnrealPlatform[];
+
+    /** If true, clean both binary and intermediate files */
+    CleanBinaryFiles: boolean;
+
+    /** If true, clean intermediate files */
+    CleanIntermediateFiles: boolean;
+
+    /** If true, zip packages */
+    ZipPackages: boolean;
 }
 
 // Use default install directory to find installations
@@ -30,5 +58,8 @@ export const DefaultBuildSettings: BuildSettings = {
     VersionsToInstall: ["4"], // Just use the best version of Unreal Engine 4 they have
     PluginPath: ".", // Use current working directory
     OutputPath: "Packages", // Use a Packages directory
-    Platforms: defaultPlatforms
+    Platforms: defaultPlatforms,
+    CleanIntermediateFiles: true,
+    CleanBinaryFiles: false,
+    ZipPackages: true
 }
