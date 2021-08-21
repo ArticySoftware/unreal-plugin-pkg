@@ -98,7 +98,7 @@ catch(err) { /* no settings file. Ignore */ }
 // Add command line settings
 settings.PluginPath = parsed.args[0] ?? settings.PluginPath;
 const opts = parsed.opts();
-settings.OutputPath = opts.outDir ?? settings.OutputPath;
+settings.OutputPath = opts.out ?? settings.OutputPath;
 settings.VersionsToInstall = opts.versions ?? settings.VersionsToInstall;
 settings.Platforms = opts.platforms ?? settings.Platforms;
 settings.UnrealEnginePaths = opts.unrealDirs ?? settings.UnrealEnginePaths;
