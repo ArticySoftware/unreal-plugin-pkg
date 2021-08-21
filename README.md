@@ -47,7 +47,7 @@ If you're repeatedly using the same arguments, consider creating a `unreal-packa
     "VersionsToInstall": ["4.26", "5"],
     "PluginPath": ".",
     "OutputPath": "out/",
-    "Platforms": "Win64", "Android",
+    "Platforms": ["Win64", "Android"],
     "CleanBinaryFiles": true,
     "CleanIntermediateFiles": true,
     "ZipPackages": false

@@ -65,7 +65,12 @@ async function main(options: BuildSettings)
             "-StrictIncludes"
         ];
         console.log(`Building ${UnrealVersionString(install.Version)} to ${outputDirectory}.`);
-        execFileSync('"' + uatPath + '"', args, { shell: true, stdio: "inherit" });
+        if(process.platform === "win32") { 
+            execFileSync('"' + uatPath + '"', args, { shell: true, stdio: "inherit" });
+        } else { 
+            execFileSync(uatPath.replace(/ /g, "\\ "), args, { shell: true, stdio: "inherit" });
+        }
+        
 
         await cleanDirectory(outputDirectory, settings);
         if(settings.ZipPackages) { 
