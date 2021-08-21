@@ -15,11 +15,13 @@ yarn global add unreal-plugin-pkg
 Usage: unreal-plugin-pkg [options] [uplugin]
 
 Options:
-  -V, --version               output the version number
   --unrealDirs <paths...>     List of directories to search for Unreal installations in
   --versions <versions...>    List of Unreal versions to build your plugin for
   --out <outDir>              Directory to compile the packages into. One folder will be created inside per version.
   --platforms <platforms...>  Platforms to build for. Will be pruned to those supported by the current OS.
+  --keepIntermediate          Don't cleaning the Intermediate folders after builds
+  --cleanBinaries             Delete Binaries folders after builds
+  --nozip                     Don't zip packages once they've been built
   -h, --help                  display help for command
 ```
 
@@ -45,7 +47,10 @@ If you're repeatedly using the same arguments, consider creating a `unreal-packa
     "VersionsToInstall": ["4.26", "5"],
     "PluginPath": ".",
     "OutputPath": "out/",
-    "Platforms": "Win64", "Android"
+    "Platforms": "Win64", "Android",
+    "CleanBinaryFiles": true,
+    "CleanIntermediateFiles": true,
+    "ZipPackages": false
 }
 ```
 
@@ -64,3 +69,13 @@ So specifying `4` would use the newest version of Unreal 4 installed. Specifying
 ## Plugin Path
 
 The plugin path can be either a `.uplugin` file or a folder which contains a `.uplugin` file.
+
+## Zipping
+
+By default, this program will zip each packaged folder into a zip archive of the same name. If you don't want this, use `--nozip`.
+
+## Binary and Intermediate Files
+
+By default, this program deletes the Intermediate folder in each package before zipping it. If you don't want that, use `--keepIntermediate`.
+
+If you want to also delete the Binaries folder, use `--cleanBinaries`.
