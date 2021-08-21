@@ -5,6 +5,7 @@
         "removeComments": true,
         "preserveConstEnums": true,
         "outDir": "dist",
+        "newLine": "lf",
     },
     "include": [
         "src/**/*"
