@@ -1,6 +1,6 @@
 {
   "name": "unreal-plugin-pkg",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "CLI for mass building and packaging Unreal plugins for multiple versions.",
   "main": "./dist/cli.js",
   "bin": {
