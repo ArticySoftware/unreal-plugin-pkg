@@ -1,7 +1,8 @@
+#!/usr/bin/env node
+
 import { execFileSync } from "child_process";
-import { Command, program } from "commander";
+import { program } from "commander";
 import { readFileSync } from "fs";
-import { rm } from "fs/promises";
 import path = require("path");
 import rimraf = require("rimraf");
 import { promisify } from "util";
