@@ -1,12 +1,14 @@
 {
   "name": "unreal-plugin-pkg",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "CLI for mass building and packaging Unreal plugins for multiple versions.",
   "main": "./dist/cli.js",
   "bin": {
     "unreal-plugin-pkg": "./dist/cli.js"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "author": "Brook Jensen",
   "license": "MIT",
   "scripts": {
