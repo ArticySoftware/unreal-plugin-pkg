@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { execFileSync } from "child_process";
+import { execSync } from "child_process";
 import { program } from "commander";
 import { readFileSync } from "fs";
 import path = require("path");
@@ -71,7 +71,9 @@ async function main(options: BuildSettings)
 
         // Run UAT
         console.log(`Building ${UnrealVersionString(install.Version)} to ${outputDirectory}.`);
-        execFileSync(path.basename(uatPath), args, { shell: true, stdio: "inherit" });
+        const cmd = `${process.platform === "win32" ? '' : './'}${path.basename(uatPath)} ${args.join(' ')}`;
+        console.log(cmd);
+        execSync(cmd, { stdio: "inherit" });
         
         // Restore working directory
         process.chdir(cwd);
