@@ -64,13 +64,17 @@ async function main(options: BuildSettings)
             "-Rocket",
             "-StrictIncludes"
         ];
+
+        // Change working directory to the UAT path
+        const cwd = process.cwd();
+        process.chdir(path.dirname(uatPath));
+
+        // Run UAT
         console.log(`Building ${UnrealVersionString(install.Version)} to ${outputDirectory}.`);
-        if(process.platform === "win32") { 
-            execFileSync('"' + uatPath + '"', args, { shell: true, stdio: "inherit" });
-        } else { 
-            execFileSync(uatPath.replace(/ /g, "\\ "), args, { shell: true, stdio: "inherit" });
-        }
+        execFileSync(path.basename(uatPath), args, { shell: true, stdio: "inherit" });
         
+        // Restore working directory
+        process.chdir(cwd);
 
         await cleanDirectory(outputDirectory, settings);
         if(settings.ZipPackages) { 
