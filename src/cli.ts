@@ -64,6 +64,10 @@ async function main(options: BuildSettings)
             "-Rocket",
             "-StrictIncludes"
         ];
+        
+        // PS: enforce VS2019 when running under windows
+        if (process.platform === 'win32')
+        	args.push("-VS2019");
 
         // Change working directory to the UAT path
         const cwd = process.cwd();
